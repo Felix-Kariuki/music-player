@@ -1,8 +1,7 @@
-package com.flexcode.musicplayer;
+  package com.flexcode.musicplayer.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -16,12 +15,11 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.flexcode.musicplayer.R;
 import com.flexcode.musicplayer.fragments.AlbumFragment;
 import com.flexcode.musicplayer.fragments.SongsFragment;
 import com.flexcode.musicplayer.models.MusicFiles;

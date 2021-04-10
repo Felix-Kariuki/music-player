@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.flexcode.musicplayer.R;
 import com.flexcode.musicplayer.adapters.MusicAdapter;
 
-import static com.flexcode.musicplayer.MainActivity.musicFiles;
+import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
 
 
 public class SongsFragment extends Fragment {
