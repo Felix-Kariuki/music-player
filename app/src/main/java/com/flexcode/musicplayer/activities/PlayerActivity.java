@@ -1,9 +1,13 @@
 package com.flexcode.musicplayer.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.palette.graphics.Palette;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -359,13 +364,69 @@ public class PlayerActivity extends AppCompatActivity {
                     .into(ivCoverArt);
             //bg gradient change
             bitmap = BitmapFactory.decodeByteArray(art,0,art.length);
+            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(@Nullable Palette palette) {
+                    Palette.Swatch swatch = palette.getDominantSwatch();
+                    //song image gradient
+                    if (swatch != null) {
+                        ImageView ivGradient = findViewById(R.id.ivGradient);
+                        RelativeLayout mContainer = findViewById(R.id.mContainer);
+                        ivGradient.setBackgroundResource(R.drawable.gradient_bg);
+                        mContainer.setBackgroundResource(R.drawable.player_bg);
+                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.
+                                Orientation.BOTTOM_TOP, new int[] {
+                                        swatch.getRgb(), 0x00000000
+                        });
+                        ivGradient.setBackground(gradientDrawable);
 
+                        //bg of entire player activity
+                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.
+                                Orientation.BOTTOM_TOP, new int[] {
+                                swatch.getRgb(), swatch.getRgb()
+                        });
+                        mContainer.setBackground(gradientDrawableBg);
+
+                        //color of song and artist
+                        tvSongName.setTextColor(swatch.getTitleTextColor());
+                        tvSongArtist.setTextColor(swatch.getBodyTextColor());
+                    }else {
+                        ImageView ivGradient = findViewById(R.id.ivGradient);
+                        RelativeLayout mContainer = findViewById(R.id.mContainer);
+                        ivGradient.setBackgroundResource(R.drawable.gradient_bg);
+                        mContainer.setBackgroundResource(R.drawable.player_bg);
+                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.
+                                Orientation.BOTTOM_TOP, new int[] {
+                                0xff000000, 0x00000000
+                        });
+                        ivGradient.setBackground(gradientDrawable);
+
+                        //bg of entire player activity
+                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.
+                                Orientation.BOTTOM_TOP, new int[] {
+                                0xff000000, 0xff000000
+                        });
+                        mContainer.setBackground(gradientDrawableBg);
+
+                        //color of song and artist
+                        tvSongName.setTextColor(Color.WHITE);
+                        tvSongArtist.setTextColor(Color.DKGRAY);
+                    }
+                }
+            });
         } else {
             //if image is null the use default image
             Glide.with(this)
                     .asBitmap()
                     .load(R.drawable.felix)
                     .into(ivCoverArt);
+            ImageView ivGradient = findViewById(R.id.ivGradient);
+            RelativeLayout mContainer = findViewById(R.id.mContainer);
+            ivGradient.setBackgroundResource(R.drawable.gradient_bg);
+            mContainer.setBackgroundResource(R.drawable.player_bg);
+            //color of song and artist
+            tvSongName.setTextColor(Color.WHITE);
+            tvSongArtist.setTextColor(Color.DKGRAY);
         }
     }
 }
