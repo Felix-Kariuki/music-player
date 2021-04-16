@@ -1,9 +1,11 @@
 package com.flexcode.musicplayer.adapters;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,9 @@ import com.bumptech.glide.Glide;
 import com.flexcode.musicplayer.R;
 import com.flexcode.musicplayer.activities.PlayerActivity;
 import com.flexcode.musicplayer.models.MusicFiles;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder> {
@@ -86,7 +90,23 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
     //delete method
     private void delete(int position, View v) {
-        mFiles.remove(position);
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                Long.parseLong(mFiles.get(position).getId())); //
+
+        File file = new File(mFiles.get(position).getPath());
+        boolean deleted = file.delete();
+        if (deleted){
+            mContext.getContentResolver().delete(contentUri,null,null);
+            mFiles.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mFiles.size());
+            Snackbar.make(v, "File deleted", Snackbar.LENGTH_LONG)
+                    .show();
+        }else {
+            //if its in sd card and api level 19 above
+            Snackbar.make(v, "cannot be deleted", Snackbar.LENGTH_LONG)
+                    .show();
+        }
 
     }
 
