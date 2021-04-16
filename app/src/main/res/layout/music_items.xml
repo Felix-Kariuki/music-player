@@ -11,6 +11,7 @@
         android:id="@+id/ivMusic"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:contentDescription="@string/music_art"
         android:src="@mipmap/ic_launcher_round"
         android:padding="5dp"/>
     <TextView
@@ -21,6 +22,15 @@
         android:layout_toEndOf="@id/ivMusic"
         android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/ivMoreMenu"
         android:textColor="@color/white"/>
+    <ImageView
+        android:id="@+id/ivMoreMenu"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:contentDescription="@string/more"
+        android:src="@drawable/ic_more"
+        android:layout_alignParentEnd="true"
+        android:padding="5dp"/>
 
 </RelativeLayout>

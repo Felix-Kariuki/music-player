@@ -17,4 +17,7 @@
     <string name="file_name">File Name</string>
     <string name="total_duration">4:00</string>
     <string name="played_duration">1:38</string>
+    <string name="music_art">Music Art</string>
+    <string name="more">more</string>
+    <string name="delete">Delete</string>
 </resources>

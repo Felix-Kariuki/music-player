@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,8 +26,11 @@ import com.flexcode.musicplayer.models.MusicFiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
+import static com.flexcode.musicplayer.activities.MainActivity.repeatBoolean;
+import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -83,11 +87,35 @@ public class PlayerActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
             }
         });
+        //shuffle button
+        ivShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shuffleBoolean) {
+                    shuffleBoolean = false;
+                    ivShuffle.setImageResource(R.drawable.ic_shuffle_off);
+                }else {
+                    shuffleBoolean = true;
+                    ivShuffle.setImageResource(R.drawable.ic_shuffle_on);
+                }
+            }
+        });
+        //repeat button repeat songs
+        ivRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (repeatBoolean){
+                    repeatBoolean = false;
+                    ivRepeat.setImageResource(R.drawable.ic_repeat_off);
+                }else {
+                    repeatBoolean = true;
+                    ivRepeat.setImageResource(R.drawable.ic_repeat_on);
+                }
+            }
+        });
     }
 
     //resume method
-
-
     @Override
     protected void onResume() {
         playThreadBtn();
@@ -119,7 +147,14 @@ public class PlayerActivity extends AppCompatActivity {
             mediaPlayer.stop();
             mediaPlayer.release();
             //decrement the song position;
-            position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
+            //if shuffle on ad repeat off
+            if (shuffleBoolean && !repeatBoolean){
+                position = getRandom(listSongs.size() - 1);
+            }else if(!shuffleBoolean && !repeatBoolean){
+                position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
+            }//else the repeat is on no changing position of song
+
+            //position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -146,7 +181,14 @@ public class PlayerActivity extends AppCompatActivity {
             mediaPlayer.stop();
             mediaPlayer.release();
             //decrement the song position
-            position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
+            //if shuffle on ad repeat off
+            if (shuffleBoolean && !repeatBoolean){
+                position = getRandom(listSongs.size() - 1);
+            }else if(!shuffleBoolean && !repeatBoolean){
+                position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
+            }//else the repeat is on no changing position of song
+
+            //position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -191,9 +233,16 @@ public class PlayerActivity extends AppCompatActivity {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
+            //if shuffle on ad repeat off
+            if (shuffleBoolean && !repeatBoolean){
+                position = getRandom(listSongs.size() - 1);
+            }else if(!shuffleBoolean && !repeatBoolean){
+                position = getRandom(listSongs.size() - 1);
+            }//else the repeat is on no changing position of song
+
             //increment the song position
-            //position = ((position + 1) % listSongs.size());
-            position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1)); //so as to traverse with no error when at the last to first song
+            //position = ((position + 1) % listSongs.size()); // use this the other one prev
+            //position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1)); //so as to traverse with no error when at the last to first song
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -217,8 +266,15 @@ public class PlayerActivity extends AppCompatActivity {
         }else {
             mediaPlayer.stop();
             mediaPlayer.release();
+            //if shuffle on ad repeat off
+            if (shuffleBoolean && !repeatBoolean){
+                position = getRandom(listSongs.size() - 1);
+            }else if(!shuffleBoolean && !repeatBoolean){
+                position = getRandom(listSongs.size() - 1);
+            }//else the repeat is on no changing position of song
+
             //increment the song position
-            position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
+            //position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -237,6 +293,12 @@ public class PlayerActivity extends AppCompatActivity {
             });
             playPause.setImageResource(R.drawable.ic_play);
         }
+    }
+
+    //random song method
+    private int getRandom(int i) {
+        Random random =new Random();
+        return random.nextInt(i + 1);
     }
 
     //play thread
@@ -428,5 +490,9 @@ public class PlayerActivity extends AppCompatActivity {
             tvSongName.setTextColor(Color.WHITE);
             tvSongArtist.setTextColor(Color.DKGRAY);
         }
+    }
+
+    //Image change  Animation
+    public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap){
     }
 }

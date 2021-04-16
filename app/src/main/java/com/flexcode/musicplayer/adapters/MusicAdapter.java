@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,7 +54,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                     .into(holder.album_art);
         }
 
-        //player activity
+        //player activity when clicked on song item in recyclerview
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +63,31 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                 mContext.startActivity(intent);
             }
         });
+        //menu more options
+        holder.menuMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext, v);
+                popupMenu.getMenuInflater().inflate(R.menu.more_menu_song, popupMenu.getMenu());
+                popupMenu.show();
+                popupMenu.setOnMenuItemClickListener((item ) ->{
+                    switch (item.getItemId()){
+                        case R.id.delete:
+                            Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                            delete(position, v);
+                            break;
+                    }
+                    return true;
+                });
+
+            }
+        });
+    }
+
+    //delete method
+    private void delete(int position, View v) {
+        mFiles.remove(position);
+
     }
 
     @Override
@@ -71,12 +98,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView file_name;
-        ImageView album_art;
+        ImageView album_art,menuMore;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             file_name = itemView.findViewById(R.id.tvMusicFileName);
             album_art = itemView.findViewById(R.id.ivMusic);
+            menuMore = itemView.findViewById(R.id.ivMoreMenu);
         }
     }
 
