@@ -5,7 +5,14 @@
     <item
         android:title="@string/delete"
         android:id="@+id/delete"
+        android:icon="@drawable/ic_delete"
         app:showAsAction="never"/>
+    <item
+        android:title="@string/share"
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="never"/>
+
 
 
 </menu>

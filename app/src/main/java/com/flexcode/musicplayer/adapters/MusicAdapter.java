@@ -1,4 +1,4 @@
-package com.flexcode.musicplayer.adapters;
+ package com.flexcode.musicplayer.adapters;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -77,7 +77,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                 popupMenu.setOnMenuItemClickListener((item ) ->{
                     switch (item.getItemId()){
                         case R.id.delete:
-                            Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(mContext,"",Toast.LENGTH_SHORT).show();
                             delete(position, v);
                             break;
                     }
@@ -103,7 +103,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             Snackbar.make(v, "File deleted", Snackbar.LENGTH_LONG)
                     .show();
         }else {
-            //if its in sd card and api level 19 above
+            //if its in sd card
             Snackbar.make(v, "cannot be deleted", Snackbar.LENGTH_LONG)
                     .show();
         }

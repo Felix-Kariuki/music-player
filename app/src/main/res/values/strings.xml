@@ -20,4 +20,7 @@
     <string name="music_art">Music Art</string>
     <string name="more">more</string>
     <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="album_iamge">album iamge</string>
+    <string name="album">Album</string>
 </resources>
