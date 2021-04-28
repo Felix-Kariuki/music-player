@@ -21,6 +21,7 @@
     <string name="more">more</string>
     <string name="delete">Delete</string>
     <string name="share">Share</string>
-    <string name="album_iamge">album iamge</string>
+    <string name="album_image">album image</string>
     <string name="album">Album</string>
+    <string name="album_gradient">Album gradient</string>
 </resources>

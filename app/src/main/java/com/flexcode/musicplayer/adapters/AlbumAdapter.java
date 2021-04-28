@@ -1,6 +1,7 @@
 package com.flexcode.musicplayer.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.flexcode.musicplayer.R;
+import com.flexcode.musicplayer.activities.AlbumDetails;
+import com.flexcode.musicplayer.activities.PlayerActivity;
 import com.flexcode.musicplayer.models.MusicFiles;
 
 import java.util.ArrayList;
@@ -49,6 +52,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
             Glide.with(mContext).load(R.drawable.felix)
                     .into(holder.ivAlbumImage);
         }
+        //play when clicked on album item in recyclerview
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AlbumDetails.class);
+                intent.putExtra("albumName", albumFiles.get(position).getAlbum());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
