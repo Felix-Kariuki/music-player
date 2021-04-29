@@ -37,7 +37,7 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlbumDetailsAdapter.MyHolder holder, int position) {
         holder.tvAlbumName.setText(albumFiles.get(position).getTitle());
         byte[] image = getAlbumArt(albumFiles.get(position).getPath());
 
