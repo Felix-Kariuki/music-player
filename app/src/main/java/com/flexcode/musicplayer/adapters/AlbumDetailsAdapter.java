@@ -57,7 +57,7 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
                 intent.putExtra("albumName", albumFiles.get(position).getAlbum());
                 mContext.startActivity(intent);
             }
-        });*/
+        });**/
     }
 
     @Override
