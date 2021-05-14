@@ -1,6 +1,6 @@
 package com.flexcode.musicplayer.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import  androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +20,7 @@ import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
 public class AlbumDetails extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ImageView ivAlbumImage;
+    ImageView albumPhoto;
     String albumName;
     ArrayList<MusicFiles> albumSongs = new ArrayList<>();
     AlbumDetailsAdapter albumDetailsAdapter;
@@ -31,26 +31,27 @@ public class AlbumDetails extends AppCompatActivity {
         setContentView(R.layout.activity_album_details);
 
         recyclerView = findViewById(R.id.recyclerView);
-        ivAlbumImage = findViewById(R.id.ivAlbumImage);
+        albumPhoto = findViewById(R.id.ivAlbumPhoto);
         albumName = getIntent().getStringExtra("albumName");
 
         int j = 0;
-        for (int i =0; i < musicFiles.size(); i++){
-            if (albumName.equals(musicFiles.get(i).getAlbum())){
-                albumSongs.add(j, musicFiles.get(i));
-                j++;
-            }
-        }
-        byte[] image = getAlbumArt(albumSongs.get(0).getPath());
-        if (image != null) {
-            Glide.with(this)
-                    .load(image)
-                    .into(ivAlbumImage);
-        }else {
-            Glide.with(this)
-                    .load(R.drawable.felix)
-                    .into(ivAlbumImage);
-        }
+       for (int i = 0; i < musicFiles.size(); i++){
+           if (albumName.equals(musicFiles.get(i).getAlbum())){
+               albumSongs.add(j, musicFiles.get(i));
+               j ++;
+           }
+       }
+       byte[] image = getAlbumArt(albumSongs.get(0).getPath());
+       if (image != null) {
+           Glide.with(this)
+                   .load(image)
+                   .into(albumPhoto);
+       }else {
+           Glide.with(this)
+                   .load(R.drawable.felix)
+                   .into(albumPhoto);
+       }
+
     }
 
     @Override

@@ -35,22 +35,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(mContext).inflate(R.layout.album_items, parent, false);
+        view = LayoutInflater.from(mContext).inflate(R.layout.album_items, parent,
+                false);
         return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.tvAlbumName.setText(albumFiles.get(position).getAlbum());
+        holder.albumName.setText(albumFiles.get(position).getAlbum());
         byte[] image = getAlbumArt(albumFiles.get(position).getPath());
 
         if (image != null) {
             Glide.with(mContext).asBitmap()
                     .load(image)
-                    .into(holder.ivAlbumImage);
+                    .into(holder.albumImage);
         } else {
             Glide.with(mContext).load(R.drawable.felix)
-                    .into(holder.ivAlbumImage);
+                    .into(holder.albumImage);
         }
         //play when clicked on album item in recyclerview
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,13 +69,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.MyHolder> {
         return albumFiles.size();
     }
 
-    public class MyHolder extends RecyclerView.ViewHolder{
-        ImageView ivAlbumImage;
-        TextView tvAlbumName;
+    public static class MyHolder extends RecyclerView.ViewHolder{
+        ImageView albumImage;
+        TextView albumName;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            ivAlbumImage = itemView.findViewById(R.id.ivAlbumImage);
-            tvAlbumName = itemView.findViewById(R.id.tvAlbumName);
+            albumImage = itemView.findViewById(R.id.ivAlbumImage);
+            albumName = itemView.findViewById(R.id.tvAlbumName);
         }
     }
     private byte[] getAlbumArt(String uri) {
