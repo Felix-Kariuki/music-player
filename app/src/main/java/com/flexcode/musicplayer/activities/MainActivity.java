@@ -18,6 +18,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.ViewGroup;
 
 import com.flexcode.musicplayer.R;
 import com.flexcode.musicplayer.fragments.AlbumFragment;
@@ -164,5 +166,11 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
         }
         return tempAudioList;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
