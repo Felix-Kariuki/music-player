@@ -23,13 +23,13 @@ import java.util.ArrayList;
 public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapter.MyHolder> {
 
     private Context mContext;
-    private ArrayList<MusicFiles> albumFiles;
+    public static ArrayList<MusicFiles> albumFiles;
     View view; //object
 
     //constructor
     public AlbumDetailsAdapter(Context mContext, ArrayList<MusicFiles> albumFiles) {
         this.mContext = mContext;
-        this.albumFiles = albumFiles;
+        AlbumDetailsAdapter.albumFiles = albumFiles;
     }
 
     @NonNull
@@ -54,7 +54,20 @@ public class AlbumDetailsAdapter extends RecyclerView.Adapter<AlbumDetailsAdapte
                     .into(holder.albumImage);
         }
 
+        //playing songs in album activity
+        //starting player activity on click of a song in album details
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PlayerActivity.class);
+                intent.putExtra("sender","albumDetails");
+                intent.putExtra("position",position);
+                mContext.startActivity(intent);
+            }
+        });
+
     }
+
 
     @Override
     public int getItemCount() {

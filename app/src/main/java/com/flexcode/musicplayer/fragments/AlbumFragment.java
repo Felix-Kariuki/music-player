@@ -15,6 +15,7 @@ import com.flexcode.musicplayer.R;
 import com.flexcode.musicplayer.adapters.AlbumAdapter;
 import com.flexcode.musicplayer.adapters.MusicAdapter;
 
+import static com.flexcode.musicplayer.activities.MainActivity.albums;
 import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
 
 
@@ -35,8 +36,9 @@ public class AlbumFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        if (! (musicFiles.size()  < 1)) {
-            albumAdapter = new AlbumAdapter(getContext(), musicFiles);
+        //change musicFiles to albums to remove duplicate albums
+        if (! (albums.size()  < 1)) {
+            albumAdapter = new AlbumAdapter(getContext(), albums);
             recyclerView.setAdapter(albumAdapter);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         }

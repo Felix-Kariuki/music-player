@@ -32,6 +32,7 @@ import java.util.Random;
 import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
 import static com.flexcode.musicplayer.activities.MainActivity.repeatBoolean;
 import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
+import static com.flexcode.musicplayer.adapters.AlbumDetailsAdapter.albumFiles;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -383,9 +384,18 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
-    //get extra from music adapter
+    //get extra from music adapter & album details adapter
     private void getIntentMethod() {
         position = getIntent().getIntExtra("position", -1);
+        String sender = getIntent().getStringExtra("sender");
+
+        //check if sender is from albumdetails
+        if (sender != null && sender.equals("albumDetails")){
+            listSongs = albumFiles;
+        }else {
+            listSongs = musicFiles;
+        }
+
         listSongs = musicFiles;
         if (listSongs != null) {
             playPause.setImageResource(R.drawable.ic_pause);
