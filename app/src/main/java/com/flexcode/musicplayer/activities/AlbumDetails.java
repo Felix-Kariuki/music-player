@@ -41,6 +41,8 @@ public class AlbumDetails extends AppCompatActivity {
                j ++;
            }
        }
+
+       //adding album photo if any if none ise default image
        byte[] image = getAlbumArt(albumSongs.get(0).getPath());
        if (image != null) {
            Glide.with(this)
@@ -59,6 +61,7 @@ public class AlbumDetails extends AppCompatActivity {
         super.onResume();
         if (!(albumSongs.size() < 1)) {
             albumDetailsAdapter = new AlbumDetailsAdapter(this,albumSongs);
+            recyclerView.setAdapter(albumDetailsAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this,
                     RecyclerView.VERTICAL,false));
 
