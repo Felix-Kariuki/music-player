@@ -33,6 +33,7 @@ import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
 import static com.flexcode.musicplayer.activities.MainActivity.repeatBoolean;
 import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
 import static com.flexcode.musicplayer.adapters.AlbumDetailsAdapter.albumFiles;
+import static com.flexcode.musicplayer.adapters.MusicAdapter.mFiles;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -393,10 +394,11 @@ public class PlayerActivity extends AppCompatActivity {
         if (sender != null && sender.equals("albumDetails")){
             listSongs = albumFiles;
         }else {
-            listSongs = musicFiles;
+            //change music files to updated list mFiles
+            listSongs = mFiles;
         }
 
-        listSongs = musicFiles;
+        //listSongs = mFiles;
         if (listSongs != null) {
             playPause.setImageResource(R.drawable.ic_pause);
             uri = Uri.parse(listSongs.get(position).getPath());
