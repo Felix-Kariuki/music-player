@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public static ArrayList<MusicFiles> musicFiles;
     static boolean shuffleBoolean = false, repeatBoolean = false;
     public static ArrayList<MusicFiles> albums = new ArrayList<>();
+    private String MY_SORT_PREFERENCE = "sortOrder";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +131,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     //method to return array list of model class(music files)
-    public static ArrayList<MusicFiles> getAllAudio(Context context) {
+    public ArrayList<MusicFiles> getAllAudio(Context context) {
+        SharedPreferences preferences = getSharedPreferences(MY_SORT_PREFERENCE,MODE_PRIVATE);
+        String sortOrder = preferences.getString("sorting","sortByName");
+        String order = null;
+
         //duplicate arraylist
         ArrayList<String> duplicate = new ArrayList<>();
 
         ArrayList<MusicFiles> tempAudioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        //checking selected item
+        switch (sortOrder)
+        {
+            case "sortByName":
+                order = MediaStore.MediaColumns.DISPLAY_NAME + "ASC";
+                break;
+            case "sortByDate":
+                order = MediaStore.MediaColumns.DATE_ADDED + "ASC";
+                break;
+            case "sortBySize":
+                order = MediaStore.MediaColumns.SIZE + "DESC";
+                break;
+        }
+
+
         String[] projection = {
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.TITLE,
@@ -196,5 +217,32 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         SongsFragment.musicAdapter.updateList(myFiles);
         return true;
+    }
+
+    //sorting item songs
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //use shared pref to check which item is selected
+        SharedPreferences.Editor editor = getSharedPreferences(
+                MY_SORT_PREFERENCE, MODE_PRIVATE).edit();
+        switch (item.getItemId()){
+            case R.id.by_name:
+                editor.putString("sorting", "sortByName");
+                editor.apply();
+                this.recreate();
+                break;
+            case R.id.by_date:
+                editor.putString("sorting", "sortByDate");
+                editor.apply();
+                this.recreate();
+                break;
+            case R.id.by_size:
+                editor.putString("sorting", "sortBySize");
+                editor.apply();
+                this.recreate();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

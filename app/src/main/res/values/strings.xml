@@ -25,4 +25,8 @@
     <string name="album">Album</string>
     <string name="album_gradient">Album gradient</string>
     <string name="search">Search</string>
+    <string name="sort_by">sort by</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
+    <string name="size">Size</string>
 </resources>
