@@ -134,24 +134,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public ArrayList<MusicFiles> getAllAudio(Context context) {
         SharedPreferences preferences = getSharedPreferences(MY_SORT_PREFERENCE,MODE_PRIVATE);
         String sortOrder = preferences.getString("sorting","sortByName");
-        String order = null;
+
 
         //duplicate arraylist
         ArrayList<String> duplicate = new ArrayList<>();
-
+        //to remove duplicate albums after sorting:
+        albums.clear();
         ArrayList<MusicFiles> tempAudioList = new ArrayList<>();
+        String order = null;
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         //checking selected item
         switch (sortOrder)
         {
             case "sortByName":
-                order = MediaStore.MediaColumns.DISPLAY_NAME + "ASC";
+                order = MediaStore.MediaColumns.DISPLAY_NAME + " ASC";
                 break;
             case "sortByDate":
-                order = MediaStore.MediaColumns.DATE_ADDED + "ASC";
+                order = MediaStore.MediaColumns.DATE_ADDED + " ASC";
                 break;
             case "sortBySize":
-                order = MediaStore.MediaColumns.SIZE + "DESC";
+                order = MediaStore.MediaColumns.SIZE  + " DESC";
                 break;
         }
 
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 MediaStore.Audio.Media._ID
         };
         Cursor cursor = context.getContentResolver().query(uri,projection,
-                null,null,null);
+                null,null,order);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String album = cursor.getString(0);
