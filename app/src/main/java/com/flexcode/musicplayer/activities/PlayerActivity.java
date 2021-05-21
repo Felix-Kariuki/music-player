@@ -23,10 +23,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.flexcode.musicplayer.R;
+import com.flexcode.musicplayer.boundedService.ActionPlaying;
 import com.flexcode.musicplayer.models.MusicFiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
@@ -35,7 +37,8 @@ import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
 import static com.flexcode.musicplayer.adapters.AlbumDetailsAdapter.albumFiles;
 import static com.flexcode.musicplayer.adapters.MusicAdapter.mFiles;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity
+        implements MediaPlayer.OnCompletionListener, ActionPlaying {
 
     TextView tvSongName,tvSongArtist,tvDurationPlayed,tvTotalDuration;
     SeekBar seekBar;
@@ -52,17 +55,20 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setFullScreen();
         setContentView(R.layout.activity_player);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
 
         //returning back to songs
-        ivBack = findViewById(R.id.ivBack);
+        /*ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent  intent = new Intent(PlayerActivity.this,MainActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         initViews();
         getIntentMethod();
@@ -155,7 +161,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     //on clicking the prev button
-    private void prevBtnClicked() {
+    public void prevBtnClicked() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -242,7 +248,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     //when next btn is clicked
-    private void nextBtnClicked() {
+    public void nextBtnClicked() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -332,7 +338,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     //clicking the play pause button
-    private void playPauseBtnClicked() {
+    public void playPauseBtnClicked() {
         //if playing
         if (mediaPlayer.isPlaying()) {
             playPause.setImageResource(R.drawable.ic_play);
@@ -517,5 +523,10 @@ public class PlayerActivity extends AppCompatActivity {
 
     //Image change  Animation
     public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap){
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+
     }
 }
