@@ -12,7 +12,11 @@
         android:id="@+id/share"
         android:icon="@drawable/ic_share"
         app:showAsAction="never"/>
-
+    <item
+        android:title="@string/set_as_ringtone"
+        android:id="@+id/ringtone"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="never"/>
 
 
 </menu>
