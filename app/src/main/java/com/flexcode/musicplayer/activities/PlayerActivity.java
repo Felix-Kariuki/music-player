@@ -1,11 +1,10 @@
  package com.flexcode.musicplayer.activities;
 
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
@@ -18,7 +17,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -36,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
+
 import static com.flexcode.musicplayer.activities.MainActivity.repeatBoolean;
 import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
 import static com.flexcode.musicplayer.adapters.AlbumDetailsAdapter.albumFiles;
@@ -55,8 +53,7 @@ public class PlayerActivity extends AppCompatActivity
     //public static MediaPlayer mediaPlayer;
 
      Handler handler = new Handler();
-     private Thread playThread,prevThread,nextThread;
-     MusicService musicService;
+    MusicService musicService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,29 +109,23 @@ public class PlayerActivity extends AppCompatActivity
             }
         });
         //shuffle button
-        ivShuffle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (shuffleBoolean) {
-                    shuffleBoolean = false;
-                    ivShuffle.setImageResource(R.drawable.ic_shuffle_off);
-                }else {
-                    shuffleBoolean = true;
-                    ivShuffle.setImageResource(R.drawable.ic_shuffle_on);
-                }
+        ivShuffle.setOnClickListener(v -> {
+            if (shuffleBoolean) {
+                shuffleBoolean = false;
+                ivShuffle.setImageResource(R.drawable.ic_shuffle_off);
+            }else {
+                shuffleBoolean = true;
+                ivShuffle.setImageResource(R.drawable.ic_shuffle_on);
             }
         });
         //repeat button repeat songs
-        ivRepeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (repeatBoolean){
-                    repeatBoolean = false;
-                    ivRepeat.setImageResource(R.drawable.ic_repeat_off);
-                }else {
-                    repeatBoolean = true;
-                    ivRepeat.setImageResource(R.drawable.ic_repeat_on);
-                }
+        ivRepeat.setOnClickListener(v -> {
+            if (repeatBoolean){
+                repeatBoolean = false;
+                ivRepeat.setImageResource(R.drawable.ic_repeat_off);
+            }else {
+                repeatBoolean = true;
+                ivRepeat.setImageResource(R.drawable.ic_repeat_on);
             }
         });
     }
@@ -158,16 +149,11 @@ public class PlayerActivity extends AppCompatActivity
 
     //prev thread
     private void prevThreadBtn() {
-        prevThread = new Thread(){
+        Thread prevThread = new Thread() {
             @Override
             public void run() {
                 super.run();
-                ivPrevious.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        prevBtnClicked();
-                    }
-                });
+                ivPrevious.setOnClickListener(v -> prevBtnClicked());
             }
         };
         prevThread.start();
@@ -247,16 +233,11 @@ public class PlayerActivity extends AppCompatActivity
     }
 
     private void nextThreadBtn() {
-        nextThread = new Thread(){
+        Thread nextThread = new Thread() {
             @Override
             public void run() {
                 super.run();
-                ivNext.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        nextBtnClicked();
-                    }
-                });
+                ivNext.setOnClickListener(v -> nextBtnClicked());
             }
         };
         nextThread.start();
@@ -340,16 +321,11 @@ public class PlayerActivity extends AppCompatActivity
 
     //play thread
     private void playThreadBtn() {
-        playThread = new Thread(){
+        Thread playThread = new Thread() {
             @Override
             public void run() {
                 super.run();
-                playPause.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        playPauseBtnClicked();
-                    }
-                });
+                playPause.setOnClickListener(v -> playPauseBtnClicked());
             }
         };
         playThread.start();
@@ -394,8 +370,8 @@ public class PlayerActivity extends AppCompatActivity
 
     private String formattedTime(int mCurrentPosition) {
 
-        String totalOut = "";
-        String totalNew = "";
+        String totalOut;
+        String totalNew;
         String seconds = String.valueOf(mCurrentPosition % 60);
         String minutes = String.valueOf(mCurrentPosition / 60);
         totalOut = minutes + ":" + seconds;
@@ -414,7 +390,7 @@ public class PlayerActivity extends AppCompatActivity
         position = getIntent().getIntExtra("position", -1);
         String sender = getIntent().getStringExtra("sender");
 
-        //check if sender is from albumdetails
+        //check if sender is from album details
         if (sender != null && sender.equals("albumDetails")){
             listSongs = albumFiles;
         }else {
@@ -469,54 +445,49 @@ public class PlayerActivity extends AppCompatActivity
                     .into(ivCoverArt);
             //bg gradient change
             bitmap = BitmapFactory.decodeByteArray(art,0,art.length);
-            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(@Nullable Palette palette) {
-                    Palette.Swatch swatch = palette.getDominantSwatch();
-                    //song image gradient
-                    if (swatch != null) {
-                        ImageView ivGradient = findViewById(R.id.ivGradient);
-                        RelativeLayout mContainer = findViewById(R.id.mContainer);
-                        ivGradient.setBackgroundResource(R.drawable.gradient_bg);
-                        mContainer.setBackgroundResource(R.drawable.player_bg);
-                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.
-                                Orientation.BOTTOM_TOP, new int[] {
-                                        swatch.getRgb(), 0x00000000
-                        });
-                        ivGradient.setBackground(gradientDrawable);
+            Palette.from(bitmap).generate(palette -> {
+                assert palette != null;
+                Palette.Swatch swatch = palette.getDominantSwatch();
+                //song image gradient
+                ImageView ivGradient = findViewById(R.id.ivGradient);
+                RelativeLayout mContainer = findViewById(R.id.mContainer);
+                ivGradient.setBackgroundResource(R.drawable.gradient_bg);
+                mContainer.setBackgroundResource(R.drawable.player_bg);
+                GradientDrawable gradientDrawable;
+                if (swatch != null) {
+                    gradientDrawable = new GradientDrawable(GradientDrawable.
+                            Orientation.BOTTOM_TOP, new int[]{
+                            swatch.getRgb(), 0x00000000
+                    });
+                    ivGradient.setBackground(gradientDrawable);
 
-                        //bg of entire player activity
-                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.
-                                Orientation.BOTTOM_TOP, new int[] {
-                                swatch.getRgb(), swatch.getRgb()
-                        });
-                        mContainer.setBackground(gradientDrawableBg);
+                    //bg of entire player activity
+                    GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.
+                            Orientation.BOTTOM_TOP, new int[] {
+                            swatch.getRgb(), swatch.getRgb()
+                    });
+                    mContainer.setBackground(gradientDrawableBg);
 
-                        //color of song and artist
-                        tvSongName.setTextColor(swatch.getTitleTextColor());
-                        tvSongArtist.setTextColor(swatch.getBodyTextColor());
-                    }else {
-                        ImageView ivGradient = findViewById(R.id.ivGradient);
-                        RelativeLayout mContainer = findViewById(R.id.mContainer);
-                        ivGradient.setBackgroundResource(R.drawable.gradient_bg);
-                        mContainer.setBackgroundResource(R.drawable.player_bg);
-                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.
-                                Orientation.BOTTOM_TOP, new int[] {
-                                0xff000000, 0x00000000
-                        });
-                        ivGradient.setBackground(gradientDrawable);
+                    //color of song and artist
+                    tvSongName.setTextColor(swatch.getTitleTextColor());
+                    tvSongArtist.setTextColor(swatch.getBodyTextColor());
+                }else {
+                    gradientDrawable = new GradientDrawable(GradientDrawable.
+                            Orientation.BOTTOM_TOP, new int[]{
+                            0xff000000, 0x00000000
+                    });
+                    ivGradient.setBackground(gradientDrawable);
 
-                        //bg of entire player activity
-                        GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.
-                                Orientation.BOTTOM_TOP, new int[] {
-                                0xff000000, 0xff000000
-                        });
-                        mContainer.setBackground(gradientDrawableBg);
+                    //bg of entire player activity
+                    GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.
+                            Orientation.BOTTOM_TOP, new int[] {
+                            0xff000000, 0xff000000
+                    });
+                    mContainer.setBackground(gradientDrawableBg);
 
-                        //color of song and artist
-                        tvSongName.setTextColor(Color.WHITE);
-                        tvSongArtist.setTextColor(Color.DKGRAY);
-                    }
+                    //color of song and artist
+                    tvSongName.setTextColor(Color.WHITE);
+                    tvSongArtist.setTextColor(Color.DKGRAY);
                 }
             });
         } else {
@@ -536,8 +507,8 @@ public class PlayerActivity extends AppCompatActivity
     }
 
     //Image change  Animation
-    public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap){
-    }
+    /*public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap){
+    }*/
 
     @Override
     public void onCompletion(MediaPlayer mp) {
