@@ -263,7 +263,9 @@ public class PlayerActivity extends AppCompatActivity
 
                 position = getRandom(listSongs.size() - 1);
             } else if (!shuffleBoolean && !repeatBoolean) {
-                position = getRandom(listSongs.size() - 1);
+                //position = getRandom(listSongs.size() - 1);
+                //position = ((position - 1 ) < 0 ? (listSongs.size() -1 ): (position - 1));
+                position = ((position + 1) % listSongs.size());
             }//else the repeat is on no changing position of song
 
             //increment the song position
