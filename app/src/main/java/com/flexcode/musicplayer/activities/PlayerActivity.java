@@ -566,7 +566,7 @@ public class PlayerActivity extends AppCompatActivity
 
         byte[] picture = null;
         Bitmap thumb = null;
-        picture = getAlbumArt(musicFiles.get(position).getPath());
+        picture = getAlbumArt(listSongs.get(position).getPath());
         if (picture != null) {
             thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);
         } else {
@@ -575,8 +575,8 @@ public class PlayerActivity extends AppCompatActivity
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                 .setSmallIcon(playPauseBtn)
                 .setLargeIcon(thumb)
-                .setContentTitle(musicFiles.get(position).getTitle())
-                .setContentText(musicFiles.get(position).getArtist())
+                .setContentTitle(listSongs.get(position).getTitle())
+                .setContentText(listSongs.get(position).getArtist())
                 .addAction(R.drawable.ic_skip_previous_24, "Previous", prevPending)
                 .addAction(playPauseBtn, "Pause", pausePending)
                 .addAction(R.drawable.ic_skip_next_24, "Next", nextPending)
