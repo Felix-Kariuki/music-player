@@ -49,6 +49,7 @@ import static com.flexcode.musicplayer.activities.MainActivity.repeatBoolean;
 import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
 import static com.flexcode.musicplayer.adapters.AlbumDetailsAdapter.albumFiles;
 import static com.flexcode.musicplayer.adapters.MusicAdapter.mFiles;
+import static com.flexcode.musicplayer.boundedService.ApplicationClass.ACTION_NEXT;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.ACTION_PLAY;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.ACTION_PREVIOUS;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.CHANNEL_ID_1;
@@ -560,7 +561,7 @@ public class PlayerActivity extends AppCompatActivity
                 pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent nextIntent = new Intent(this, NotificationReceiver.class)
-                .setAction(ACTION_PLAY);
+                .setAction(ACTION_NEXT);
         PendingIntent nextPending = PendingIntent.getBroadcast(this, 0,
                 nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
