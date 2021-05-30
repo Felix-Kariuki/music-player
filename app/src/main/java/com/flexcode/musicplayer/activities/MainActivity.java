@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 order = MediaStore.MediaColumns.DISPLAY_NAME + " ASC";
                 break;
             case "sortByDate":
-                order = MediaStore.MediaColumns.DATE_ADDED + " ASC";
+                order = MediaStore.MediaColumns.DATE_ADDED + " DESC";
                 break;
             case "sortBySize":
                 order = MediaStore.MediaColumns.SIZE  + " DESC";

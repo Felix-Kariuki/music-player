@@ -125,7 +125,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         return mediaPlayer.getCurrentPosition();
     }
 
-    public void createMediaPlayer(int position) {
+    public void createMediaPlayer(int positionInner) {
+        position = positionInner;
         uri = Uri.parse(musicFiles.get(position).getPath());
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
@@ -142,10 +143,13 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public void onCompletion(MediaPlayer mp) {
         if (actionPlaying != null){
             actionPlaying.nextBtnClicked();
+            if (mediaPlayer != null){
+                createMediaPlayer(position);
+                mediaPlayer.start();
+                OnCompleted();
+            }
         }
-        createMediaPlayer(position);
-        mediaPlayer.start();
-        OnCompleted();
+
 
     }
     public void setCallBack(ActionPlaying actionPlaying) {
