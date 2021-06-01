@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 
 import com.flexcode.musicplayer.R;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     static boolean shuffleBoolean = false, repeatBoolean = false;
     public static ArrayList<MusicFiles> albums = new ArrayList<>();
     private String MY_SORT_PREFERENCE = "sortOrder";
+    FrameLayout  frameBottomPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
