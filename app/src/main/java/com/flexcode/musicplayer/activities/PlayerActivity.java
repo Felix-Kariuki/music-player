@@ -16,8 +16,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
-import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,7 +42,6 @@ import java.util.Objects;
 import java.util.Random;
 
 
-import static com.flexcode.musicplayer.activities.MainActivity.musicFiles;
 import static com.flexcode.musicplayer.activities.MainActivity.repeatBoolean;
 import static com.flexcode.musicplayer.activities.MainActivity.shuffleBoolean;
 import static com.flexcode.musicplayer.adapters.AlbumDetailsAdapter.albumFiles;
@@ -52,7 +49,6 @@ import static com.flexcode.musicplayer.adapters.MusicAdapter.mFiles;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.ACTION_NEXT;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.ACTION_PLAY;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.ACTION_PREVIOUS;
-import static com.flexcode.musicplayer.boundedService.ApplicationClass.CHANNEL_ID_1;
 import static com.flexcode.musicplayer.boundedService.ApplicationClass.CHANNEL_ID_2;
 
 public class PlayerActivity extends AppCompatActivity
@@ -566,8 +562,8 @@ public class PlayerActivity extends AppCompatActivity
         PendingIntent nextPending = PendingIntent.getBroadcast(this, 0,
                 nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        byte[] picture = null;
-        Bitmap thumb = null;
+        byte[] picture;
+        Bitmap thumb;
         picture = getAlbumArt(listSongs.get(position).getPath());
         if (picture != null) {
             thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);

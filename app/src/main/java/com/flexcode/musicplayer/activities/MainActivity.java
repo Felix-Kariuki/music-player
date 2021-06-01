@@ -21,7 +21,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public static ArrayList<MusicFiles> musicFiles;
     static boolean shuffleBoolean = false, repeatBoolean = false;
     public static ArrayList<MusicFiles> albums = new ArrayList<>();
-    private String MY_SORT_PREFERENCE = "sortOrder";
+    private final String MY_SORT_PREFERENCE = "sortOrder";
     FrameLayout  frameBottomPlayer;
 
     @Override
@@ -97,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     //viewpager adapter
     public static class viewPagerAdapter extends FragmentPagerAdapter {
 
-        private ArrayList<Fragment> fragments;
-        private ArrayList<String> titles;
+        private final ArrayList<Fragment> fragments;
+        private final ArrayList<String> titles;
 
 
         public viewPagerAdapter(@NonNull FragmentManager fm) {

@@ -35,6 +35,7 @@ public class NowPlayingBottomFragment extends Fragment {
         songName = view.findViewById(R.id.tvSongNameMini);
         btnNext = view.findViewById(R.id.ivSkipNextBottom);
         btnPlayPause = view.findViewById(R.id.btnPlayPauseMini);
+        musicImage = view.findViewById(R.id.ivBottomAlbumArt);
         return view;
     }
 }
