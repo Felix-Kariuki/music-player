@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public static ArrayList<MusicFiles> albums = new ArrayList<>();
     private final String MY_SORT_PREFERENCE = "sortOrder";
     FrameLayout  frameBottomPlayer;
+    public static final String  MUSIC_LAST_PLAYED = "LAST_PLAYED";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static boolean SHOW_MINI_PLAYER = false;
+    public static String PATH_TO_FRAG = null;
+    public static final String  ARTIST_NAME = "ARTIST NAME";
+    public static final String  SONG_NAME = "SONG NAME";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,5 +254,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences(MUSIC_LAST_PLAYED,MODE_PRIVATE);
+        String value = sharedPreferences.getString(MUSIC_FILE,null);
+        if (value != null) {
+            SHOW_MINI_PLAYER = true;
+            PATH_TO_FRAG = value;
+        }else {
+            SHOW_MINI_PLAYER = false;
+            PATH_TO_FRAG = null;
+        }
     }
 }

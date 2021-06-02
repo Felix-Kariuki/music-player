@@ -2,6 +2,7 @@ package com.flexcode.musicplayer.boundedService;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
@@ -24,6 +25,10 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     Uri uri;
     int position = -1;
     ActionPlaying actionPlaying;
+    public static final String  MUSIC_LAST_PLAYED = "LAST_PLAYED";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static final String  ARTIST_NAME = "ARTIST NAME";
+    public static final String  SONG_NAME = "SONG NAME";
 
     @Override
     public void onCreate() {
@@ -127,6 +132,10 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public void createMediaPlayer(int positionInner) {
         position = positionInner;
         uri = Uri.parse(musicFiles.get(position).getPath());
+        SharedPreferences.Editor editor = getSharedPreferences(MUSIC_LAST_PLAYED,
+                MODE_PRIVATE).edit();
+        editor.putString(MUSIC_FILE,uri.toString());
+        editor.apply();
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
 
