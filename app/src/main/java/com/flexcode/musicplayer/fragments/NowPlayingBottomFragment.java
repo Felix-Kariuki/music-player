@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.flexcode.musicplayer.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Objects;
+
 import static com.flexcode.musicplayer.activities.MainActivity.PATH_TO_FRAG;
 import static com.flexcode.musicplayer.activities.MainActivity.SHOW_MINI_PLAYER;
 
@@ -51,7 +53,7 @@ public class NowPlayingBottomFragment extends Fragment {
         if (SHOW_MINI_PLAYER){
             if (PATH_TO_FRAG != null) {
                 byte[] art = getAlbumArt(PATH_TO_FRAG);
-                Glide.with(getContext()).load(art)
+                Glide.with(Objects.requireNonNull(getContext())).load(art)
                         .into(musicImage);
                 songName.setText(PATH_TO_FRAG);
             }
